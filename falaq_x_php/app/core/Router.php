@@ -10,7 +10,23 @@ class Router
 
     public function __construct(array $routes)
     {
-        $this->routes = $routes;
+        $this->routes = $this->sortRoutes($routes);
+    }
+    private function sortRoutes(array $routes): array {
+        // Separate static and dynamic routes
+        $static = [];
+        $dynamic = [];
+
+        foreach ($routes as $route => $handler) {
+            if (strpos($route, '{') === false) {
+                $static[$route] = $handler;
+            } else {
+                $dynamic[$route] = $handler;
+            }
+        }
+
+        // Merge: static first, then dynamic
+        return $static + $dynamic;
     }
 
     public function dispatch(): void

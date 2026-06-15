@@ -8,13 +8,14 @@
 // ─────────────────────────────────────────────
 // APPLICATION SETTINGS
 // ─────────────────────────────────────────────
-define('APP_NAME',    'FalaqX App');
-define('APP_VERSION', '1.0.0');
-define('APP_ENV',     'development'); // 'development' | 'production'
-define('APP_DEBUG',   true);
-define('APP_URL',     'http://localhost/falaqx_framework');
-define('APP_CHARSET', 'UTF-8');
-define('APP_TIMEZONE','Asia/Dhaka');
+define('APP_NAME',          'FalaqX App');
+define('APP_VERSION',       '1.0.0');
+define('APP_ENV',           'development'); // 'development' | 'production'
+define('APP_DEBUG',         true);
+define('APP_URL',           'http://falaqx.test');
+define('APP_ASSETS_URL',    'http://falaqx.test/assets/');
+define('APP_CHARSET',       'UTF-8');
+define('APP_TIMEZONE',      'Asia/Dhaka');
 
 // ─────────────────────────────────────────────
 // DATABASE SETTINGS

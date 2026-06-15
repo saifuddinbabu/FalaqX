@@ -28,6 +28,22 @@ class Controller
     }
 
     /**
+     * Generate a head tag (<link>, <meta>, <script>) with validated attributes.
+     *
+     * @param string $tag        The tag name ("link", "meta", "script").
+     * @param array  $attributes Key-value pairs of attributes allowed for the tag.
+     *
+     * @return string            The generated HTML tag.
+     *
+     * @throws InvalidArgumentException If the tag or attributes are not allowed.
+     */
+    protected function headTags(string $tag, array $attributes): string
+    {
+        $this->view->headTags($tag, $attributes);
+
+    }
+
+    /**
      * Return JSON response and terminate.
      */
     protected function json(mixed $data, int $status = 200): void
