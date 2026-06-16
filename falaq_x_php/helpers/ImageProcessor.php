@@ -1,5 +1,7 @@
 <?php
 
+namespace FalaqX\Helpers;
+
 /**
  * FalaqX Helper - ImageProcessor
  * Resize, crop, thumbnail, watermark, and convert images using GD.
@@ -17,12 +19,12 @@ class ImageProcessor
     public function load(string $filePath): self
     {
         if (!file_exists($filePath)) {
-            throw new RuntimeException("Image file not found: {$filePath}");
+            throw new \RuntimeException("Image file not found: {$filePath}");
         }
 
         $info = getimagesize($filePath);
         if ($info === false) {
-            throw new RuntimeException("Not a valid image: {$filePath}");
+            throw new \RuntimeException("Not a valid image: {$filePath}");
         }
 
         [$this->width, $this->height, $typeConst] = $info;
@@ -33,7 +35,7 @@ class ImageProcessor
             IMAGETYPE_PNG  => imagecreatefrompng($filePath),
             IMAGETYPE_GIF  => imagecreatefromgif($filePath),
             IMAGETYPE_WEBP => imagecreatefromwebp($filePath),
-            default        => throw new RuntimeException("Unsupported image type."),
+            default        => throw new \RuntimeException("Unsupported image type."),
         };
 
         $this->type = image_type_to_extension($typeConst, false);
@@ -189,7 +191,7 @@ class ImageProcessor
             'png'        => imagepng($this->image, $outputPath, (int) round((100 - $quality) / 10)),
             'gif'        => imagegif($this->image, $outputPath),
             'webp'       => imagewebp($this->image, $outputPath, $quality),
-            default      => throw new RuntimeException("Unsupported output format: {$format}"),
+            default      => throw new \RuntimeException("Unsupported output format: {$format}"),
         };
 
         return $this;
@@ -207,7 +209,7 @@ class ImageProcessor
             'png'        => imagepng($this->image, null, (int) round((100 - $quality) / 10)),
             'gif'        => imagegif($this->image),
             'webp'       => imagewebp($this->image, null, $quality),
-            default      => throw new RuntimeException("Unsupported format: {$format}"),
+            default      => throw new \RuntimeException("Unsupported format: {$format}"),
         };
     }
 
@@ -219,7 +221,7 @@ class ImageProcessor
     private function requireImage(): void
     {
         if (!$this->image) {
-            throw new RuntimeException('No image loaded. Call load() first.');
+            throw new \RuntimeException('No image loaded. Call load() first.');
         }
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+namespace FalaqX\Helpers;
+
 /**
  * FalaqX Helper - Email
  * Sends emails via SMTP using PHP's built-in sockets.
@@ -82,7 +84,7 @@ class Email
     public function attach(string $filePath, string $fileName = ''): self
     {
         if (!file_exists($filePath)) {
-            throw new RuntimeException("Attachment file not found: {$filePath}");
+            throw new \RuntimeException("Attachment file not found: {$filePath}");
         }
         $this->attachments[] = [
             'path' => $filePath,
@@ -97,12 +99,12 @@ class Email
      * Send the email.
      * Uses PHP's mail() by default. Replace with SMTP logic / PHPMailer as needed.
      *
-     * @throws RuntimeException on failure
+     * @throws \RuntimeException on failure
      */
     public function send(): bool
     {
         if (!Security::isEmail($this->to)) {
-            throw new RuntimeException("Invalid recipient email: {$this->to}");
+            throw new \RuntimeException("Invalid recipient email: {$this->to}");
         }
 
         $headers  = $this->buildHeaders();
@@ -118,7 +120,7 @@ class Email
         );
 
         if (!$sent) {
-            throw new RuntimeException('mail() returned false. Check your mail configuration.');
+            throw new \RuntimeException('mail() returned false. Check your mail configuration.');
         }
 
         return true;

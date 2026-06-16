@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Controllers;
+
+use FalaqX\Core\Controller;
+use FalaqX\Helpers\Security;
+
 /**
  * Example: HomeController
  * Handles public-facing pages.

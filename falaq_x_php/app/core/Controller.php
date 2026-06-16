@@ -1,5 +1,9 @@
 <?php
 
+namespace FalaqX\Core;
+
+use FalaqX\Helpers\Security;
+
 /**
  * FalaqX Core - Base Controller
  * All user controllers extend this class.
@@ -140,15 +144,25 @@ class Controller
         return Security::compareHash($token ?? '', $_SESSION[CSRF_TOKEN_NAME] ?? '');
     }
 
-    // ── Model loader ──────────────────────────────────────────────────────────
-
-    protected function model(string $modelName): object
+    /**
+     * Load and instantiate a model by short name.
+     * e.g. $this->model('UserModel') → new App\Models\UserModel()
+     */
+    protected function model(string $modelName): Model
     {
+        $fqn = "App\\Models\\{$modelName}";
+
         $file = MODEL_PATH . "/{$modelName}.php";
         if (!file_exists($file)) {
-            throw new RuntimeException("Model [{$modelName}] not found.");
+            throw new \RuntimeException("Model [{$modelName}] not found.");
         }
+
         require_once $file;
-        return new $modelName();
+
+        if (!class_exists($fqn)) {
+            throw new \RuntimeException("Model class [{$fqn}] not defined.");
+        }
+
+        return new $fqn();
     }
 }

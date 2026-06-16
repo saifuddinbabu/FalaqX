@@ -1,17 +1,23 @@
 <?php
 
+namespace App\Controllers;
+
+use FalaqX\Core\Controller;
+use FalaqX\Helpers\Security;
+use App\Models\UserModel;
+
 /**
  * Example: UserController
  * Full CRUD for users.
  */
 class UserController extends Controller
 {
-    private Model $userModel;
+    private UserModel $userModel;
 
     public function __construct()
     {
         parent::__construct();
-        $this->userModel = $this->model('UserModel');
+        $this->userModel = new UserModel();
     }
 
     public function index(): void

@@ -1,5 +1,7 @@
 <?php
 
+namespace FalaqX\Core;
+
 /**
  * FalaqX Core - Base Model
  * Provides ActiveRecord-style helpers on top of DB.

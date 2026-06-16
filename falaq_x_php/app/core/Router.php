@@ -1,5 +1,7 @@
 <?php
 
+namespace FalaqX\Core;
+
 /**
  * FalaqX Core - Router
  * Matches incoming URI to a controller/method and dispatches.
@@ -102,8 +104,13 @@ class Router
         return [$handler, 'index'];
     }
 
+    /**
+     * Instantiate and call a controller action.
+     * Routes use short names (e.g. 'HomeController') which map to App\Controllers\HomeController.
+     */
     private function callController(string $controllerName, string $action, array $params): void
     {
+        $fqn  = "App\\Controllers\\{$controllerName}";
         $file = CTRL_PATH . "/{$controllerName}.php";
 
         if (!file_exists($file)) {
@@ -113,15 +120,15 @@ class Router
 
         require_once $file;
 
-        if (!class_exists($controllerName)) {
-            $this->handle404("Class [{$controllerName}] not defined.");
+        if (!class_exists($fqn)) {
+            $this->handle404("Class [{$fqn}] not defined.");
             return;
         }
 
-        $controller = new $controllerName();
+        $controller = new $fqn();
 
         if (!method_exists($controller, $action)) {
-            $this->handle404("Method [{$action}] not found in [{$controllerName}].");
+            $this->handle404("Method [{$action}] not found in [{$fqn}].");
             return;
         }
 

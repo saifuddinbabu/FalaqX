@@ -1,5 +1,6 @@
 <?php
 
+namespace FalaqX\Core;
 /**
  * FalaqX Core - DB
  * A thin PDO wrapper. Supports MySQL now; extend for other drivers later.
@@ -8,7 +9,7 @@
 class DB
 {
     private static ?self $instance = null;
-    private PDO $pdo;
+    private \PDO $pdo;
 
     // ── Singleton ─────────────────────────────────────────────────────────────
 
@@ -24,18 +25,18 @@ class DB
         );
 
         $options = [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
+            \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+            \PDO::ATTR_EMULATE_PREPARES   => false,
         ];
 
         try {
-            $this->pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
-        } catch (PDOException $e) {
+            $this->pdo = new \PDO($dsn, DB_USER, DB_PASS, $options);
+        } catch (\PDOException $e) {
             if (APP_DEBUG) {
-                throw new RuntimeException('DB Connection failed: ' . $e->getMessage());
+                throw new \RuntimeException('DB Connection failed: ' . $e->getMessage());
             }
-            throw new RuntimeException('Database connection error. Please try again later.');
+            throw new \RuntimeException('Database connection error. Please try again later.');
         }
     }
 
@@ -49,7 +50,7 @@ class DB
 
     // ── Raw PDO access ────────────────────────────────────────────────────────
 
-    public function getPdo(): PDO
+    public function getPdo(): \PDO
     {
         return $this->pdo;
     }
@@ -59,7 +60,7 @@ class DB
     /**
      * Run a raw query and return the PDOStatement.
      */
-    public function query(string $sql, array $bindings = []): PDOStatement
+    public function query(string $sql, array $bindings = []): \PDOStatement
     {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($bindings);
@@ -156,7 +157,7 @@ class DB
             $result = $fn($this);
             $this->commit();
             return $result;
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->rollback();
             throw $e;
         }

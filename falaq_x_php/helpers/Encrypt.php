@@ -1,5 +1,7 @@
 <?php
 
+namespace FalaqX\Helpers;
+
 /**
  * FalaqX Helper - Encrypt
  * AES-256-GCM symmetric encryption using the APP_KEY constant.
@@ -34,7 +36,7 @@ class Encrypt
         );
 
         if ($ciphertext === false) {
-            throw new RuntimeException('Encryption failed.');
+            throw new \RuntimeException('Encryption failed.');
         }
 
         return base64_encode($iv . $tag . $ciphertext);
@@ -49,7 +51,7 @@ class Encrypt
         $raw  = base64_decode($payload, true);
 
         if ($raw === false || strlen($raw) < self::IV_LEN + self::TAG_LEN + 1) {
-            throw new RuntimeException('Invalid encrypted payload.');
+            throw new \RuntimeException('Invalid encrypted payload.');
         }
 
         $iv         = substr($raw, 0, self::IV_LEN);
@@ -66,7 +68,7 @@ class Encrypt
         );
 
         if ($plaintext === false) {
-            throw new RuntimeException('Decryption failed: authentication tag mismatch.');
+            throw new \RuntimeException('Decryption failed: authentication tag mismatch.');
         }
 
         return $plaintext;

@@ -1,5 +1,7 @@
 <?php
 
+namespace FalaqX\Helpers;
+
 /**
  * FalaqX Helper - FTP
  * Upload, download, list, and manage remote files via PHP's ftp_* functions.
@@ -20,16 +22,16 @@ class Ftp
         bool   $passive = FTP_PASSIVE
     ): self {
         if (!extension_loaded('ftp')) {
-            throw new RuntimeException('PHP FTP extension is not enabled.');
+            throw new \RuntimeException('PHP FTP extension is not enabled.');
         }
 
         $this->conn = ftp_connect($host, $port, 30);
         if ($this->conn === false) {
-            throw new RuntimeException("FTP: Cannot connect to {$host}:{$port}");
+            throw new \RuntimeException("FTP: Cannot connect to {$host}:{$port}");
         }
 
         if (!ftp_login($this->conn, $user, $pass)) {
-            throw new RuntimeException("FTP: Login failed for user [{$user}].");
+            throw new \RuntimeException("FTP: Login failed for user [{$user}].");
         }
 
         ftp_pasv($this->conn, $passive);
@@ -62,7 +64,7 @@ class Ftp
     {
         $this->requireConnection();
         if (!file_exists($localFile)) {
-            throw new RuntimeException("FTP Upload: local file not found [{$localFile}].");
+            throw new \RuntimeException("FTP Upload: local file not found [{$localFile}].");
         }
         return ftp_put($this->conn, $remotePath, $localFile, FTP_BINARY);
     }
@@ -81,15 +83,13 @@ class Ftp
     public function listFiles(string $remotePath = '.'): array
     {
         $this->requireConnection();
-        $list = ftp_nlist($this->conn, $remotePath);
-        return $list ?: [];
+        return ftp_nlist($this->conn, $remotePath) ?: [];
     }
 
     public function listDetails(string $remotePath = '.'): array
     {
         $this->requireConnection();
-        $raw = ftp_rawlist($this->conn, $remotePath);
-        return $raw ?: [];
+        return ftp_rawlist($this->conn, $remotePath) ?: [];
     }
 
     public function makeDir(string $remotePath): bool

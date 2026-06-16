@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models;
+
+use FalaqX\Core\Model;
+
 /**
  * Example: UserModel
  */

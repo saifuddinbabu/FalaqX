@@ -1,5 +1,7 @@
 <?php
 
+namespace FalaqX\Helpers;
+
 /**
  * FalaqX Helper - FileHelper
  * Copy, move, delete, upload, list, and manage local files and directories.
@@ -19,13 +21,13 @@ class FileHelper
     public static function copyDir(string $src, string $dest): void
     {
         if (!is_dir($src)) {
-            throw new RuntimeException("Source directory not found: {$src}");
+            throw new \RuntimeException("Source directory not found: {$src}");
         }
         self::ensureDir($dest);
 
-        foreach (new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($src, FilesystemIterator::SKIP_DOTS),
-            RecursiveIteratorIterator::SELF_FIRST
+        foreach (new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($src, \FilesystemIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::SELF_FIRST
         ) as $item) {
             $target = $dest . DIRECTORY_SEPARATOR . str_replace($src . DIRECTORY_SEPARATOR, '', $item->getPathname());
             if ($item->isDir()) {
@@ -58,9 +60,9 @@ class FileHelper
         if (!is_dir($path)) {
             return false;
         }
-        foreach (new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
-            RecursiveIteratorIterator::CHILD_FIRST
+        foreach (new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::CHILD_FIRST
         ) as $item) {
             $item->isDir() ? rmdir($item->getPathname()) : unlink($item->getPathname());
         }
@@ -126,7 +128,7 @@ class FileHelper
     public static function read(string $path): string
     {
         if (!is_file($path)) {
-            throw new RuntimeException("File not found: {$path}");
+            throw new \RuntimeException("File not found: {$path}");
         }
         return file_get_contents($path);
     }
@@ -146,7 +148,7 @@ class FileHelper
             return [];
         }
         $files = [];
-        foreach (new DirectoryIterator($dir) as $item) {
+        foreach (new \DirectoryIterator($dir) as $item) {
             if ($item->isDot() || !$item->isFile()) continue;
             if ($extension && strtolower($item->getExtension()) !== ltrim($extension, '.')) continue;
             $files[] = $item->getPathname();

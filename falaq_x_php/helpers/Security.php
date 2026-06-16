@@ -1,5 +1,7 @@
 <?php
 
+namespace FalaqX\Helpers;
+
 /**
  * FalaqX Helper - Security
  * Input sanitization, CSRF tokens, password hashing, XSS prevention.

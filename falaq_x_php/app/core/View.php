@@ -1,5 +1,6 @@
 <?php
 
+namespace FalaqX\Core;
 /**
  * FalaqX Core - View
  * Renders template files with optional layout wrapping.
@@ -14,13 +15,13 @@ class View
      * @param string $template  Dot-notation: 'home.index' → views/home/index.php
      * @param array  $data      Data variables available inside the template
      * @param string $layout    Layout name inside views/layouts/ ('' = none)
-     */
+     */    
     public function render(string $template, array $data = [], string $layout = 'main'): void
     {
         $templateFile = $this->resolvePath($template);
 
         if (!file_exists($templateFile)) {
-            throw new RuntimeException("View [{$template}] not found at {$templateFile}");
+            throw new \RuntimeException("View [{$template}] not found at {$templateFile}");
         }
 
         // Render the inner template
@@ -29,7 +30,7 @@ class View
         if ($layout !== '' && $layout !== 'none') {
             $layoutFile = VIEW_PATH . "/layouts/{$layout}.php";
             if (!file_exists($layoutFile)) {
-                throw new RuntimeException("Layout [{$layout}] not found at {$layoutFile}");
+                throw new \RuntimeException("Layout [{$layout}] not found at {$layoutFile}");
             }
             // $content is available as $content inside the layout
             echo $this->capture($layoutFile, array_merge($data, ['content' => $this->content]));
@@ -48,7 +49,7 @@ class View
     {
         $file = $this->resolvePath($partial);
         if (!file_exists($file)) {
-            throw new RuntimeException("Partial [{$partial}] not found.");
+            throw new \RuntimeException("Partial [{$partial}] not found.");
         }
         echo $this->capture($file, $data);
     }
